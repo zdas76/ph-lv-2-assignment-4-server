@@ -2,7 +2,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import { TErrorSources } from "../interface/error";
 import config from "../config";
-import AppError from "../Error/appEooro";
+import AppError from "../Error/AppError";
 import handelZodError from "../Error/handelZorError";
 import handleValidationError from "../Error/handleValidationError";
 import handleCastError from "../Error/handelCastError";

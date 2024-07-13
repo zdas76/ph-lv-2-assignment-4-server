@@ -27,6 +27,7 @@ const getAllProducts = catchAsync(async (req, res) => {
 
 const getProductsId = catchAsync(async (req, res) => {
   const { id } = req.params;
+
   const result = await ProductService.getProductsById(id);
 
   sendResponse(res, {
