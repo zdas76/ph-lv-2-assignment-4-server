@@ -15,7 +15,7 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getAllProducts = catchAsync(async (req, res) => {
-  const result = await ProductService.getAllProducts();
+  const result = await ProductService.getAllProducts(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,6 +40,7 @@ const getProductsId = catchAsync(async (req, res) => {
 
 const updateProductsId = catchAsync(async (req, res) => {
   const { id } = req.params;
+
   const result = await ProductService.updateProductsById(id, req.body);
 
   sendResponse(res, {
@@ -52,7 +53,19 @@ const updateProductsId = catchAsync(async (req, res) => {
 
 const deletProductsId = catchAsync(async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   const result = await ProductService.deletProductsById(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Delet product successfully",
+    data: result,
+  });
+});
+
+const getProductsField = catchAsync(async (req, res) => {
+  const result = await ProductService.getProductField();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -68,4 +81,5 @@ export const ProductController = {
   getProductsId,
   updateProductsId,
   deletProductsId,
+  getProductsField,
 };

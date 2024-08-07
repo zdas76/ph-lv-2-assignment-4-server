@@ -13,9 +13,11 @@ router.post(
 
 router.get("/", ProductController.getAllProducts);
 
+router.get("/category", ProductController.getProductsField);
+
 router.get("/:id", ProductController.getProductsId);
 
-router.patch("/:id", ProductController.updateProductsId);
+router.put("/:id", ProductController.updateProductsId);
 
 router.delete("/:id", ProductController.deletProductsId);
 

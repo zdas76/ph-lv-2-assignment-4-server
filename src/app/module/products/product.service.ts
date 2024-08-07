@@ -1,3 +1,5 @@
+import QueryBuilder from "../../builder/QueryBuilders";
+import { productSearchableFields } from "./product.constant";
 import { TProduct } from "./product.interfact";
 import { Product } from "./Product.model";
 
@@ -17,9 +19,20 @@ const createProductToDB = async (payLoad: TProduct) => {
   }
 };
 
-const getAllProducts = async () => {
-  const result = await Product.find();
+const getAllProducts = async (query: Record<string, unknown>) => {
+  console.log(query);
+  const productQuery = new QueryBuilder(Product.find(), query)
+    .search(productSearchableFields)
+    .filter()
+    .sort()
+    .fields();
+  const result = await productQuery.modelQuery;
   return result;
+};
+
+const getProductField = async () => {
+  const reslt = await Product.find().select({ category: 1 });
+  return reslt;
 };
 
 const getProductsById = async (id: string) => {
@@ -28,6 +41,7 @@ const getProductsById = async (id: string) => {
 };
 
 const updateProductsById = async (id: string, payLoad: Partial<TProduct>) => {
+  // console.log(id, payLoad);
   const result = await Product.findByIdAndUpdate(id, payLoad);
   return result;
 };
@@ -43,4 +57,5 @@ export const ProductService = {
   getProductsById,
   updateProductsById,
   deletProductsById,
+  getProductField,
 };

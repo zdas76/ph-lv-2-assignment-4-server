@@ -27,7 +27,7 @@ const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const getAllProducts = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_service_1.ProductService.getAllProducts();
+    const result = yield product_service_1.ProductService.getAllProducts(req.query);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -65,10 +65,20 @@ const deletProductsId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
         data: result,
     });
 }));
+const getProductsField = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_service_1.ProductService.getProductField();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Delet product successfully",
+        data: result,
+    });
+}));
 exports.ProductController = {
     createProduct,
     getAllProducts,
     getProductsId,
     updateProductsId,
     deletProductsId,
+    getProductsField,
 };
