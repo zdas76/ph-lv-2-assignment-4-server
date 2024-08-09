@@ -19,19 +19,26 @@ class QueryBuilder {
     }
     filter() {
         const queryObject = Object.assign({}, this.query);
-        const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
+        const excludeFields = [
+            "searchTerm",
+            "sort",
+            "limit",
+            "page",
+            "fields",
+            "category",
+        ];
         excludeFields.forEach((element) => delete queryObject[element]);
-        if (queryObject.category) {
-            const neWcategory = queryObject.category.split(",");
+        this.modelQuery = this.modelQuery.find(queryObject);
+        return this;
+    }
+    category() {
+        if (this.query.category) {
+            const neWcategory = this.query.category.split(",");
             this.modelQuery = this.modelQuery.find({
                 category: { $in: neWcategory },
             });
-            return this;
         }
-        else {
-            this.modelQuery = this.modelQuery.find(queryObject);
-            return this;
-        }
+        return this;
     }
     sort() {
         var _a, _b;
@@ -41,8 +48,9 @@ class QueryBuilder {
     }
     paginate() {
         var _a, _b;
-        const page = Number((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.page) || 1;
-        const limit = Number((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.limit) || 10;
+        console.log(this.query);
+        const page = Number((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.page) || 0;
+        const limit = Number((_b = this === null || this === void 0 ? void 0 : this.query) === null || _b === void 0 ? void 0 : _b.limit) || 0;
         const skip = (page - 1) * limit;
         this.modelQuery = this.modelQuery.skip(skip).limit(limit);
         return this;

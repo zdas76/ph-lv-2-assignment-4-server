@@ -31,25 +31,27 @@ const createProductToDB = (payLoad) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 const getAllProducts = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(query);
     const productQuery = new QueryBuilders_1.default(Product_model_1.Product.find(), query)
         .search(product_constant_1.productSearchableFields)
         .filter()
-        .sort()
+        .category()
         .paginate()
+        .sort()
         .fields();
     const result = yield productQuery.modelQuery;
-    return result;
+    const count = yield Product_model_1.Product.countDocuments();
+    return { result, count };
 });
 const getProductField = () => __awaiter(void 0, void 0, void 0, function* () {
-    const reslt = yield Product_model_1.Product.find().select({ category: 1 });
-    return reslt;
+    const result = yield Product_model_1.Product.find().select({ category: 1 });
+    return result;
 });
 const getProductsById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield Product_model_1.Product.findById(id);
     return result;
 });
 const updateProductsById = (id, payLoad) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id, payLoad);
     const result = yield Product_model_1.Product.findByIdAndUpdate(id, payLoad);
     return result;
 });

@@ -20,19 +20,22 @@ const createProductToDB = async (payLoad: TProduct) => {
 };
 
 const getAllProducts = async (query: Record<string, unknown>) => {
-  console.log(query);
   const productQuery = new QueryBuilder(Product.find(), query)
     .search(productSearchableFields)
     .filter()
+    .category()
+    .paginate()
     .sort()
     .fields();
   const result = await productQuery.modelQuery;
-  return result;
+  const count = await Product.countDocuments();
+
+  return { result, count };
 };
 
 const getProductField = async () => {
-  const reslt = await Product.find().select({ category: 1 });
-  return reslt;
+  const result = await Product.find().select({ category: 1 });
+  return result;
 };
 
 const getProductsById = async (id: string) => {

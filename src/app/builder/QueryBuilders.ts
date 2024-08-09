@@ -27,20 +27,27 @@ class QueryBuilder<T> {
 
   filter() {
     const queryObject = { ...this.query };
-    const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
+    const excludeFields = [
+      "searchTerm",
+      "sort",
+      "limit",
+      "page",
+      "fields",
+      "category",
+    ];
     excludeFields.forEach((element) => delete queryObject[element]);
-    if (queryObject.category) {
-      const neWcategory = (queryObject.category as string).split(",");
+    this.modelQuery = this.modelQuery.find(queryObject as FilterQuery<T>);
+    return this;
+  }
+  category() {
+    if (this.query.category) {
+      const neWcategory = (this.query.category as string).split(",");
       this.modelQuery = this.modelQuery.find({
         category: { $in: neWcategory },
       });
-      return this;
-    } else {
-      this.modelQuery = this.modelQuery.find(queryObject as FilterQuery<T>);
-      return this;
     }
+    return this;
   }
-
   sort() {
     const sort =
       (this.query.sort as string)?.split(",")?.join(" ") || "-createAT";
@@ -49,8 +56,9 @@ class QueryBuilder<T> {
   }
 
   paginate() {
-    const page = Number(this?.query?.page);
-    const limit = Number(this?.query?.limit);
+    console.log(this.query);
+    const page = Number(this?.query?.page) || 0;
+    const limit = Number(this?.query?.limit) || 0;
     const skip = (page - 1) * limit;
 
     this.modelQuery = this.modelQuery.skip(skip).limit(limit);

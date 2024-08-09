@@ -13,6 +13,6 @@ router.post("/", (0, validationRequest_1.default)(product_validation_1.ProductVa
 router.get("/", product_controllers_1.ProductController.getAllProducts);
 router.get("/category", product_controllers_1.ProductController.getProductsField);
 router.get("/:id", product_controllers_1.ProductController.getProductsId);
-router.patch("/:id", product_controllers_1.ProductController.updateProductsId);
+router.put("/:id", product_controllers_1.ProductController.updateProductsId);
 router.delete("/:id", product_controllers_1.ProductController.deletProductsId);
 exports.PorductRoutes = router;
