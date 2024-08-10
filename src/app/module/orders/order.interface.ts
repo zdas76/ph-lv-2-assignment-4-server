@@ -7,7 +7,7 @@ export type TCheckProduct = {
 };
 
 export type TOrder = {
-  checkOutProduct: TCheckProduct[];
+  checkOutProduct: [TCheckProduct];
   customerEmail: string;
   customerName: string;
   deliveryAddress: string;
